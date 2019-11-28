@@ -17,6 +17,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Sleeper;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Crawler2 {
@@ -61,33 +62,42 @@ public class Crawler2 {
 		//탭바뀔때 셀레니움 지정해주기
 		newTab.addAll(driver.getWindowHandles());
 		driver.switchTo().window(newTab.get(1));
-//		for (int i = 0; i < 15; i++) {
-//			driver.findElement(By.cssSelector("body")).sendKeys(Keys.PAGE_DOWN);
-//		}
+
 		
 		
 		//xpath값에 해당하는 요소를 찾는다.
 //		driver.findElement(By.xpath("//*[@id=\"search\"]")).sendKeys("아이폰");
 //		driver.findElement(By.xpath("//*[@id=\"search-icon-legacy\"]")).click();
+		for (int i = 0; i < 10; i++) {
+			driver.findElement(By.cssSelector("body")).sendKeys(Keys.PAGE_DOWN);
+		}
+		for (int i = 1; i < 11; i++) {
+
+			List<WebElement> list = driver.findElements(By.xpath("//*[@id=\"photo_comment_list\"]"));
+			for (WebElement webElement : list) {
+				System.out.println(webElement.getText());
+			}
+			try {
+				Thread.sleep(1000);
+				driver.findElement(By.xpath("//*[@id=\"photo_gbPaging\"]/li["+i+"]/a")).click();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+			//*[@id="photo_gbPaging"]
+			//*[@id="photo_gbPaging"]/li[11]/a
 		
-		
-		String src = driver.getPageSource();	//현재 열려있는 전체 소스를 String으로 반환한다.
-		Document doc = Jsoup.parse(src);	//Jsoup에서 알아볼 수 있는 문서 형태로 파싱한다.
-		
-		for(int i=0;i<10;i++) {
+			/*String src = driver.getPageSource();	//현재 열려있는 전체 소스를 String으로 반환한다.
+			Document doc = Jsoup.parse(src);	//Jsoup에서 알아볼 수 있는 문서 형태로 파싱한다.
 			Elements elements = doc.select("#divGbTop > div.commentwrap > div:nth-child(2) > div.comment__cont"); 	//css selector에 해당하는 html태그 전체를 반환한다.
 			for (Element element : elements) {	//반환된 요소 출력
 				System.out.println(element.text());
-			}
-			try {
-				
-				driver.findElement(By.xpath("//*[@id=\"photo_gbPaging\"]/li[11]/a")).click();
-			} catch (Exception e) {
-				e.printStackTrace();
-				break;
-			}
-			
-		}
+			}*/
+
+			//*[@id="photo_gbPaging"]/li[2]/a
+		
 		
 		
 		
